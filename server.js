@@ -8,11 +8,8 @@ const PORT = process.env.PORT || 3000;
 const ADMIN_TOKEN = process.env.ADMIN_TOKEN || 'changeme-admin-token';
 const DATA_DIR = path.join(__dirname, 'data');
 const UPLOADS_DIR = path.join(__dirname, 'uploads');
-const Database = require('./src/database');
-const CONTACTS_COLLECTION = 'contacts';
-const GALLERY_COLLECTION = 'gallery';
-
-const db = new Database(DATA_DIR);
+const CONTACTS_FILE = path.join(DATA_DIR, 'contacts.json');
+const GALLERY_FILE = path.join(DATA_DIR, 'gallery.json');
 
 const MIME_TYPES = {
   '.html': 'text/html; charset=utf-8',
@@ -31,8 +28,33 @@ const MIME_TYPES = {
 async function ensureStorage() {
   await fsp.mkdir(DATA_DIR, { recursive: true });
   await fsp.mkdir(UPLOADS_DIR, { recursive: true });
-  await db.ensureCollection(CONTACTS_COLLECTION, []);
-  await db.ensureCollection(GALLERY_COLLECTION, []);
+  await ensureFile(CONTACTS_FILE, []);
+  await ensureFile(GALLERY_FILE, []);
+}
+
+async function ensureFile(filePath, fallback) {
+  try {
+    await fsp.access(filePath, fs.constants.F_OK);
+  } catch {
+    await fsp.writeFile(filePath, JSON.stringify(fallback, null, 2));
+  }
+}
+
+async function readJson(filePath, fallback) {
+  try {
+    const content = await fsp.readFile(filePath, 'utf-8');
+    return JSON.parse(content);
+  } catch (error) {
+    if (error.code === 'ENOENT') {
+      await fsp.writeFile(filePath, JSON.stringify(fallback, null, 2));
+      return fallback;
+    }
+    throw error;
+  }
+}
+
+async function writeJson(filePath, data) {
+  await fsp.writeFile(filePath, JSON.stringify(data, null, 2));
 }
 
 function sendJson(res, statusCode, payload, headers = {}) {
@@ -117,7 +139,7 @@ async function handleContactSubmission(req, res) {
       return;
     }
 
-    const contacts = await db.read(CONTACTS_COLLECTION, []);
+    const contacts = await readJson(CONTACTS_FILE, []);
     const entry = {
       id: randomUUID(),
       name: payload.name.trim(),
@@ -128,7 +150,7 @@ async function handleContactSubmission(req, res) {
       createdAt: new Date().toISOString(),
     };
     contacts.unshift(entry);
-    await db.write(CONTACTS_COLLECTION, contacts);
+    await writeJson(CONTACTS_FILE, contacts);
 
     sendJson(res, 201, {
       message: 'Ďakujeme za vašu správu! Ozveme sa vám čo najskôr.',
@@ -141,7 +163,7 @@ async function handleContactSubmission(req, res) {
 }
 
 async function handleGalleryList(res) {
-  const items = await db.read(GALLERY_COLLECTION, []);
+  const items = await readJson(GALLERY_FILE, []);
   sendJson(res, 200, { items });
 }
 
@@ -166,7 +188,7 @@ async function handleGalleryCreate(req, res) {
       return;
     }
 
-    const gallery = await db.read(GALLERY_COLLECTION, []);
+    const gallery = await readJson(GALLERY_FILE, []);
     let imageUrl = (payload.imageUrl || '').trim();
     if (payload.imageData) {
       imageUrl = await persistBase64Image(payload.imageData, payload.imageName || payload.title || 'image');
@@ -183,7 +205,7 @@ async function handleGalleryCreate(req, res) {
     };
 
     gallery.push(entry);
-    await db.write(GALLERY_COLLECTION, gallery);
+    await writeJson(GALLERY_FILE, gallery);
     sendJson(res, 201, { item: entry });
   } catch (error) {
     console.error('Gallery create failed:', error);
@@ -200,7 +222,7 @@ async function handleGalleryUpdate(req, res, id) {
   try {
     const rawBody = await getRequestBody(req);
     const payload = JSON.parse(rawBody || '{}');
-    const gallery = await db.read(GALLERY_COLLECTION, []);
+    const gallery = await readJson(GALLERY_FILE, []);
     const index = gallery.findIndex((item) => item.id === id);
 
     if (index === -1) {
@@ -233,7 +255,7 @@ async function handleGalleryUpdate(req, res, id) {
     };
 
     gallery[index] = updated;
-    await db.write(GALLERY_COLLECTION, gallery);
+    await writeJson(GALLERY_FILE, gallery);
     sendJson(res, 200, { item: updated });
   } catch (error) {
     console.error('Gallery update failed:', error);
@@ -248,7 +270,7 @@ async function handleGalleryDelete(req, res, id) {
   }
 
   try {
-    const gallery = await db.read(GALLERY_COLLECTION, []);
+    const gallery = await readJson(GALLERY_FILE, []);
     const index = gallery.findIndex((item) => item.id === id);
     if (index === -1) {
       sendError(res, 404, 'Položka nebola nájdená');
@@ -260,7 +282,7 @@ async function handleGalleryDelete(req, res, id) {
       await removeLocalImage(removed.imageUrl);
     }
 
-    await db.write(GALLERY_COLLECTION, gallery);
+    await writeJson(GALLERY_FILE, gallery);
     sendJson(res, 200, { message: 'Položka bola odstránená' });
   } catch (error) {
     console.error('Gallery delete failed:', error);
