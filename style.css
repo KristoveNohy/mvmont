@@ -1,0 +1,48 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+:root {
+    --accent-color: #0066cc;
+    --accent2-color: #4da6ff;
+    --accent3-color: #1a8cff;
+    --accent4-color: #0055aa;
+    --primary-color: #003366;
+    --dark-text-color: #222222;
+    --gray-text-color: #808080;
+    --button-padding-x: 16px;
+    --button-padding-y: 8px;
+    --font-family-body: Roboto, system-ui, -apple-system, BlinkMacSystemFont,
+      "Segoe UI", sans-serif;
+    --light-text-color: #f8f8f8;
+    --dark-border-color: #001a33;
+    --light-border-color: #99ccff;
+    --font-family-heading: "Open Sans", system-ui, -apple-system,
+      BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --button-rounded-radius: 8px;
+    --dark-background-color: #001a33;
+    --light-background-color: #cce6ff;
+    --medium-background-color: #99ccff;
+    --primary-button-text-color: #ffffff;
+    --secondary-button-bg-color: #f2f2f2;
+    --secondary-button-text-color: #003366;
+    --primary-button-hover-bg-color: #002244;
+    --primary-button-hover-text-color: #ffffff;
+    --secondary-button-hover-bg-color: #e6e6e6;
+    --secondary-button-hover-text-color: #003366;
+}
+.hovered-element {
+    outline: #3871e0 dashed 2px;
+}
+.clicked-element {
+    outline: #3871e0 solid 2px;
+}
+.clicked-code-section {
+    border: #3b82f6 solid 2px;
+}

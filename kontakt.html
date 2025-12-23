@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html class="h-full" lang="sk">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Kontakt | MV-MONT Poprad</title>
+
+    <meta
+      name="description"
+      content="Kontaktujte MV-MONT Poprad pre zasklievanie balkónov a montáž tieniacej techniky. Telefón: 0911 880 212"
+    />
+    <meta name="language" content="sk" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin="anonymous"
+    />
+    <link
+      id="google-fonts-link"
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome -->
+    <script
+      src="https://kit.fontawesome.com/8e98006f77.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+      :root {
+        --accent-color: #0066cc;
+        --accent2-color: #4da6ff;
+        --accent3-color: #1a8cff;
+        --accent4-color: #0055aa;
+        --primary-color: #003366;
+        --dark-text-color: #222222;
+        --gray-text-color: #808080;
+        --button-padding-x: 16px;
+        --button-padding-y: 8px;
+        --font-family-body: Roboto, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        --light-text-color: #f8f8f8;
+        --dark-border-color: #001a33;
+        --light-border-color: #99ccff;
+        --font-family-heading: "Open Sans", system-ui, -apple-system,
+          BlinkMacSystemFont, "Segoe UI", sans-serif;
+        --button-rounded-radius: 8px;
+        --dark-background-color: #001a33;
+        --light-background-color: #cce6ff;
+        --medium-background-color: #99ccff;
+        --primary-button-text-color: #ffffff;
+        --secondary-button-bg-color: #f2f2f2;
+        --secondary-button-text-color: #003366;
+        --primary-button-hover-bg-color: #002244;
+        --primary-button-hover-text-color: #ffffff;
+        --secondary-button-hover-bg-color: #e6e6e6;
+        --secondary-button-hover-text-color: #003366;
+      }
+
+      .form-input {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid var(--light-border-color);
+        border-radius: 8px;
+        font-family: var(--font-family-body);
+        font-size: 16px;
+        transition: all 0.3s ease;
+      }
+
+      .form-input:focus {
+        outline: none;
+        border-color: var(--accent-color);
+        box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+      }
+
+      .form-input.error {
+        border-color: #dc2626;
+      }
+
+      .error-message {
+        color: #dc2626;
+        font-size: 14px;
+        margin-top: 4px;
+        display: none;
+      }
+
+      .error-message.show {
+        display: block;
+      }
+
+      .success-message {
+        background-color: #10b981;
+        color: white;
+        padding: 16px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        display: none;
+      }
+
+      .success-message.show {
+        display: block;
+      }
+    </style>
+  </head>
+
+  <body class="h-full bg-white">
+    <div class="frame-root">
+      <div class="frame-content">
+        <div class="[font-family:var(--font-family-body)]">
+          <div>
+            <header
+              id="global-header"
+              class="bg-white shadow-md sticky top-0 z-50"
+            >
+              <div class="container mx-auto px-4">
+                <div class="flex items-center justify-between h-32">
+                  <!-- Logo -->
+                  <a href="/" class="flex-shrink-0">
+                    <img
+                      src="https://imagedelivery.net/xaKlCos5cTg_1RWzIu_h-A/c3019703-37fe-4413-3af7-7c35fa03b800/public"
+                      alt="MV-MONT Logo"
+                      class="h-28 py-2"
+                    />
+                  </a>
+
+                  <!-- Desktop Navigation -->
+                  <nav class="hidden lg:flex items-center space-x-8">
+                    <a
+                      href="/sluzby.html"
+                      class="text-[var(--dark-text-color)] hover:text-[var(--primary-color)] font-medium transition-colors duration-300"
+                      >Služby</a
+                    >
+                    <a
+                      href="/referencie.html"
+                      class="text-[var(--dark-text-color)] hover:text-[var(--primary-color)] font-medium transition-colors duration-300"
+                      >Referencie</a
+                    >
+                    <a
+                      href="/o-nas.html"
+                      class="text-[var(--dark-text-color)] hover:text-[var(--primary-color)] font-medium transition-colors duration-300"
+                      >O nás</a
+                    >
+                    <a
+                      href="/kontakt.html"
+                      class="text-[var(--primary-color)] font-bold transition-colors duration-300"
+                      >Kontakt</a
+                    >
+                    <a
+                      href="/kontakt.html"
+                      class="bg-[var(--primary-color)] text-[var(--primary-button-text-color)] px-6 py-3 rounded-lg hover:bg-[var(--primary-button-hover-bg-color)] transition-all duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                    >
+                      Nezáväzná konzultácia
+                    </a>
+                  </nav>
+
+                  <!-- Mobile Menu Button -->
+                  <button
+                    data-landingsite-mobile-menu-toggle
+                    class="lg:hidden text-[var(--primary-color)] p-2 focus:outline-none"
+                    aria-label="Menu"
+                  >
+                    <i class="fas fa-bars text-3xl"></i>
+                  </button>
+                </div>
+
+                <!-- Mobile Navigation -->
+                <nav
+                  data-landingsite-mobile-menu
+                  class="hidden lg:hidden pb-4"
+                >
+                  <div class="flex flex-col space-y-3">
+                    <a
+                      href="/sluzby.html"
+                      class="text-[var(--dark-text-color)] hover:text-[var(--primary-color)] font-medium py-2 px-4 rounded hover:bg-[var(--light-background-color)] transition-colors duration-300"
+                      >Služby</a
+                    >
+                    <a
+                      href="/referencie.html"
+                      class="text-[var(--dark-text-color)] hover:text-[var(--primary-color)] font-medium py-2 px-4 rounded hover:bg-[var(--light-background-color)] transition-colors duration-300"
+                      >Referencie</a
+                    >
+                    <a
+                      href="/o-nas.html"
+                      class="text-[var(--dark-text-color)] hover:text-[var(--primary-color)] font-medium py-2 px-4 rounded hover:bg-[var(--light-background-color)] transition-colors duration-300"
+                      >O nás</a
+                    >
+                    <a
+                      href="/kontakt.html"
+                      class="text-[var(--primary-color)] font-bold py-2 px-4 rounded hover:bg-[var(--light-background-color)] transition-colors duration-300"
+                      >Kontakt</a
+                    >
+                  </div>
+                </nav>
+              </div>
+            </header>
+          </div>
+
+          <!-- Page Header -->
+          <section
+            class="relative bg-gradient-to-br from-[var(--dark-background-color)] to-[var(--primary-color)] text-white py-20"
+          >
+            <div class="container mx-auto px-4">
+              <div class="max-w-3xl mx-auto text-center">
+                <h1
+                  class="text-4xl lg:text-5xl font-bold font-[var(--font-family-heading)] mb-6"
+                >
+                  Kontaktujte nás
+                </h1>
+                <p class="text-xl text-[var(--light-background-color)]">
+                  Radi vám pomôžeme s vašim projektom. Kontaktujte nás telefonicky
+                  alebo vyplňte formulár.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <!-- Contact Section -->
+          <section class="py-20 bg-white">
+            <div class="container mx-auto px-4">
+              <div class="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
+                <!-- Contact Information -->
+                <div class="space-y-8">
+                  <div>
+                    <h2
+                      class="text-3xl font-bold text-[var(--dark-text-color)] font-[var(--font-family-heading)] mb-6"
+                    >
+                      Kontaktné informácie
+                    </h2>
+                    <p class="text-[var(--gray-text-color)] text-lg mb-8">
+                      Sme tu pre vás. Neváhajte nás kontaktovať s akýmikoľvek
+                      otázkami.
+                    </p>
+                  </div>
+
+                  <!-- Contact Cards -->
+                  <div class="space-y-6">
+                    <!-- Phone -->
+                    <div
+                      class="bg-gradient-to-br from-[var(--light-background-color)] to-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300"
+                    >
+                      <div class="flex items-start space-x-4">
+                        <div
+                          class="w-14 h-14 bg-gradient-to-br from-[var(--primary-color)] to-[var(--accent-color)] rounded-xl flex items-center justify-center flex-shrink-0"
+                        >
+                          <i class="fas fa-phone-alt text-white text-xl"></i>
+                        </div>
+                        <div>
+                          <h3
+                            class="text-xl font-bold text-[var(--dark-text-color)] mb-2"
+                          >
+                            Telefón
+                          </h3>
+                          <a
+                            href="tel:0911880212"
+                            class="text-[var(--primary-color)] text-2xl font-bold hover:text-[var(--accent-color)] transition-colors duration-300"
+                          >
+                            0911 880 212
+                          </a>
+                          <p class="text-[var(--gray-text-color)] text-sm mt-2">
+                            Po - Pia: 8:00 - 17:00<br />So: 9:00 - 13:00
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Address -->
+                    <div
+                      class="bg-gradient-to-br from-[var(--light-background-color)] to-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300"
+                    >
+                      <div class="flex items-start space-x-4">
+                        <div
+                          class="w-14 h-14 bg-gradient-to-br from-[var(--primary-color)] to-[var(--accent-color)] rounded-xl flex items-center justify-center flex-shrink-0"
+                        >
+                          <i class="fas fa-map-marker-alt text-white text-xl"></i>
+                        </div>
+                        <div>
+                          <h3
+                            class="text-xl font-bold text-[var(--dark-text-color)] mb-2"
+                          >
+                            Adresa
+                          </h3>
+                          <p class="text-[var(--gray-text-color)] text-lg">
+                            Novomeského 3393/11<br />058 01 Poprad-Juh 3
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Benefits -->
+                    <div class="bg-white p-6 rounded-2xl border-2 border-[var(--light-border-color)]">
+                      <h3
+                        class="text-xl font-bold text-[var(--dark-text-color)] mb-4"
+                      >
+                        Prečo nás kontaktovať?
+                      </h3>
+                      <ul class="space-y-3">
+                        <li class="flex items-center space-x-3">
+                          <i
+                            class="fas fa-check-circle text-[var(--accent-color)] text-lg"
+                          ></i>
+                          <span class="text-[var(--gray-text-color)]"
+                            >Bezplatná obhliadka</span
+                          >
+                        </li>
+                        <li class="flex items-center space-x-3">
+                          <i
+                            class="fas fa-check-circle text-[var(--accent-color)] text-lg"
+                          ></i>
+                          <span class="text-[var(--gray-text-color)]"
+                            >Cenová ponuka do 24 hodín</span
+                          >
+                        </li>
+                        <li class="flex items-center space-x-3">
+                          <i
+                            class="fas fa-check-circle text-[var(--accent-color)] text-lg"
+                          ></i>
+                          <span class="text-[var(--gray-text-color)]"
+                            >Rýchla realizácia</span
+                          >
+                        </li>
+                        <li class="flex items-center space-x-3">
+                          <i
+                            class="fas fa-check-circle text-[var(--accent-color)] text-lg"
+                          ></i>
+                          <span class="text-[var(--gray-text-color)]"
+                            >5 rokov záruka</span
+                          >
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div>
+                  <div
+                    class="bg-white p-8 rounded-2xl shadow-xl border-2 border-[var(--light-border-color)]"
+                  >
+                    <h2
+                      class="text-3xl font-bold text-[var(--dark-text-color)] font-[var(--font-family-heading)] mb-6"
+                    >
+                      Napište nám
+                    </h2>
+
+                    <div id="success-message" class="success-message">
+                      <i class="fas fa-check-circle mr-2"></i>
+                      Ďakujeme za vašu správu! Ozveme sa vám čoskoro.
+                    </div>
+
+                    <form id="contact-form" class="space-y-6">
+                      <!-- Name -->
+                      <div>
+                        <label
+                          for="name"
+                          class="block text-[var(--dark-text-color)] font-semibold mb-2"
+                        >
+                          Meno a priezvisko *
+                        </label>
+                        <input
+                          type="text"
+                          id="name"
+                          name="name"
+                          class="form-input"
+                          required
+                        />
+                        <div class="error-message" id="name-error">
+                          Prosím, zadajte vaše meno
+                        </div>
+                      </div>
+
+                      <!-- Email -->
+                      <div>
+                        <label
+                          for="email"
+                          class="block text-[var(--dark-text-color)] font-semibold mb-2"
+                        >
+                          E-mail *
+                        </label>
+                        <input
+                          type="email"
+                          id="email"
+                          name="email"
+                          class="form-input"
+                          required
+                        />
+                        <div class="error-message" id="email-error">
+                          Prosím, zadajte platný e-mail
+                        </div>
+                      </div>
+
+                      <!-- Phone -->
+                      <div>
+                        <label
+                          for="phone"
+                          class="block text-[var(--dark-text-color)] font-semibold mb-2"
+                        >
+                          Telefón *
+                        </label>
+                        <input
+                          type="tel"
+                          id="phone"
+                          name="phone"
+                          class="form-input"
+                          required
+                        />
+                        <div class="error-message" id="phone-error">
+                          Prosím, zadajte telefónne číslo
+                        </div>
+                      </div>
+
+                      <!-- Service Type -->
+                      <div>
+                        <label
+                          for="service"
+                          class="block text-[var(--dark-text-color)] font-semibold mb-2"
+                        >
+                          Typ služby *
+                        </label>
+                        <select id="service" name="service" class="form-input" required>
+                          <option value="">Vyberte službu</option>
+                          <option value="balcony">Zasklievanie balkónov</option>
+                          <option value="blinds">Žalúzie a rolety</option>
+                          <option value="awnings">Okenné tienidlá</option>
+                          <option value="screens">Sieťky proti hmyzu</option>
+                          <option value="service">Servis a údržba</option>
+                          <option value="other">Iné</option>
+                        </select>
+                        <div class="error-message" id="service-error">
+                          Prosím, vyberte typ služby
+                        </div>
+                      </div>
+
+                      <!-- Message -->
+                      <div>
+                        <label
+                          for="message"
+                          class="block text-[var(--dark-text-color)] font-semibold mb-2"
+                        >
+                          Správa *
+                        </label>
+                        <textarea
+                          id="message"
+                          name="message"
+                          rows="5"
+                          class="form-input"
+                          required
+                        ></textarea>
+                        <div class="error-message" id="message-error">
+                          Prosím, zadajte vašu správu
+                        </div>
+                      </div>
+
+                      <!-- Submit Button -->
+                      <button
+                        type="submit"
+                        class="w-full bg-[var(--primary-color)] text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-[var(--primary-button-hover-bg-color)] transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+                      >
+                        <i class="fas fa-paper-plane mr-2"></i>
+                        Odoslať správu
+                      </button>
+
+                      <p class="text-sm text-[var(--gray-text-color)] text-center">
+                        * Povinné polia
+                      </p>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Footer -->
+          <div>
+            <footer
+              id="global-footer"
+              class="bg-[var(--dark-background-color)] text-white pt-16 pb-8"
+            >
+              <div class="container mx-auto px-4">
+                <div
+                  class="grid sm:grid-cols-2 lg:grid-cols-4 gap-12 mb-12"
+                >
+                  <!-- Company Info -->
+                  <div class="lg:col-span-1">
+                    <a href="/" class="inline-block mb-6">
+                      <img
+                        src="https://imagedelivery.net/xaKlCos5cTg_1RWzIu_h-A/c3019703-37fe-4413-3af7-7c35fa03b800/public"
+                        alt="MV-MONT Logo"
+                        class="h-28 py-2"
+                      />
+                    </a>
+                    <p
+                      class="text-[var(--light-background-color)] mb-6 leading-relaxed"
+                    >
+                      Profesionálne zasklievanie balkónov a montáž
+                      tieniacej techniky v Poprade a okolí.
+                    </p>
+                  </div>
+
+                  <!-- Quick Links -->
+                  <div>
+                    <h3
+                      class="text-xl font-bold mb-6 font-[var(--font-family-heading)]"
+                    >
+                      Rýchle odkazy
+                    </h3>
+                    <ul class="space-y-3">
+                      <li>
+                        <a
+                          href="/"
+                          class="text-[var(--light-background-color)] hover:text-white transition-colors duration-300"
+                          >Úvodná stránka</a
+                        >
+                      </li>
+                      <li>
+                        <a
+                          href="/sluzby.html"
+                          class="text-[var(--light-background-color)] hover:text-white transition-colors duration-300"
+                          >Služby</a
+                        >
+                      </li>
+                      <li>
+                        <a
+                          href="/referencie.html"
+                          class="text-[var(--light-background-color)] hover:text-white transition-colors duration-300"
+                          >Referencie</a
+                        >
+                      </li>
+                      <li>
+                        <a
+                          href="/o-nas.html"
+                          class="text-[var(--light-background-color)] hover:text-white transition-colors duration-300"
+                          >O nás</a
+                        >
+                      </li>
+                      <li>
+                        <a
+                          href="/kontakt.html"
+                          class="text-[var(--light-background-color)] hover:text-white transition-colors duration-300"
+                          >Kontakt</a
+                        >
+                      </li>
+                    </ul>
+                  </div>
+
+                  <!-- Services -->
+                  <div>
+                    <h3
+                      class="text-xl font-bold mb-6 font-[var(--font-family-heading)]"
+                    >
+                      Naše služby
+                    </h3>
+                    <ul
+                      class="space-y-3 text-[var(--light-background-color)]"
+                    >
+                      <li>Zasklievanie balkónov</li>
+                      <li>Žalúzie a rolety</li>
+                      <li>Okenné tienidlá</li>
+                      <li>Sieťky proti hmyzu</li>
+                      <li>Servis a údržba</li>
+                    </ul>
+                  </div>
+
+                  <!-- Contact Info -->
+                  <div>
+                    <h3
+                      class="text-xl font-bold mb-6 font-[var(--font-family-heading)]"
+                    >
+                      Kontakt
+                    </h3>
+                    <ul class="space-y-4">
+                      <li>
+                        <a
+                          href="tel:0911880212"
+                          class="text-[var(--light-background-color)] hover:text-white transition-colors duration-300"
+                        >
+                          <i class="fas fa-phone-alt mr-2"></i>
+                          0911 880 212
+                        </a>
+                      </li>
+                      <li class="text-[var(--light-background-color)]">
+                        <i class="fas fa-map-marker-alt mr-2"></i>
+                        Novomeského 3393/11<br />058 01 Poprad-Juh 3
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <!-- Bottom Bar -->
+                <div
+                  class="border-t border-white border-opacity-20 pt-8"
+                >
+                  <p
+                    class="text-[var(--light-background-color)] text-sm text-center"
+                  >
+                    © 2025 MV-MONT. Všetky práva vyhradené.
+                  </p>
+                </div>
+              </div>
+            </footer>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
