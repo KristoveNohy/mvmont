@@ -1,5 +1,5 @@
 // Main JavaScript file
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
     console.log('Document ready!');
     
     // Mobile menu toggle
@@ -7,6 +7,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Contact form validation and submission
     initContactForm();
+    
+    // Load gallery data from backend before enabling interactions
+    await loadGalleryContent();
     
     // Gallery lightbox functionality
     initGallery();
@@ -60,7 +63,7 @@ function initContactForm() {
     }
     
     // Form submission
-    form.addEventListener('submit', function(e) {
+    form.addEventListener('submit', async function(e) {
         e.preventDefault();
         
         // Validate all fields
@@ -87,26 +90,8 @@ function initContactForm() {
         }
         
         if (isValid) {
-            // Show success message
-            const successMessage = document.getElementById('success-message');
-            if (successMessage) {
-                successMessage.classList.add('show');
-                
-                // Reset form
-                form.reset();
-                
-                // Hide success message after 5 seconds
-                setTimeout(() => {
-                    successMessage.classList.remove('show');
-                }, 5000);
-                
-                // Scroll to success message
-                successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-            
-            // In a real application, you would send the form data to a server here
-            console.log('Form submitted successfully!');
-            console.log({
+            await submitContactForm({
+                form,
                 name: nameInput.value,
                 email: emailInput.value,
                 phone: phoneInput.value,
@@ -115,6 +100,83 @@ function initContactForm() {
             });
         }
     });
+}
+
+async function submitContactForm(payload) {
+    const form = payload.form;
+    const successMessage = document.getElementById('success-message');
+    const errorMessage = document.getElementById('form-error-message');
+    const submitButton = form.querySelector('button[type="submit"]');
+    const originalButtonText = submitButton ? submitButton.innerHTML : '';
+
+    const hideMessages = () => {
+        if (successMessage) successMessage.classList.remove('show');
+        if (errorMessage) errorMessage.style.display = 'none';
+    };
+
+    hideMessages();
+
+    if (submitButton) {
+        submitButton.disabled = true;
+        submitButton.innerHTML = '<span class="flex items-center justify-center"><i class="fas fa-spinner fa-spin mr-2"></i>Odosielame...</span>';
+    }
+
+    try {
+        const response = await fetch('/api/contact', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name: payload.name,
+                email: payload.email,
+                phone: payload.phone,
+                service: payload.service,
+                message: payload.message
+            })
+        });
+
+        const data = await response.json().catch(() => ({}));
+
+        if (!response.ok) {
+            if (errorMessage) {
+                const messageText = data?.message || 'Nastala chyba pri odosielaní. Skúste to prosím znova.';
+                errorMessage.innerHTML = `<i class="fas fa-exclamation-circle mr-2"></i>${messageText}`;
+                errorMessage.style.display = 'block';
+            }
+            if (data?.details) {
+                Object.entries(data.details).forEach(([field, msg]) => {
+                    const fieldInput = document.getElementById(field);
+                    validateField(fieldInput, `${field}-error`, msg);
+                });
+            }
+            return;
+        }
+
+        if (successMessage) {
+            const text = data?.message || 'Ďakujeme za vašu správu! Ozveme sa vám čoskoro.';
+            successMessage.innerHTML = `<i class="fas fa-check-circle mr-2"></i>${text}`;
+            successMessage.classList.add('show');
+        }
+
+        form.reset();
+        successMessage?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+        setTimeout(() => {
+            if (successMessage) successMessage.classList.remove('show');
+        }, 5000);
+    } catch (error) {
+        console.error('Contact form submission failed:', error);
+        if (errorMessage) {
+            errorMessage.innerHTML = '<i class="fas fa-exclamation-circle mr-2"></i>Server je momentálne nedostupný. Skúste to prosím neskôr.';
+            errorMessage.style.display = 'block';
+        }
+    } finally {
+        if (submitButton) {
+            submitButton.disabled = false;
+            submitButton.innerHTML = originalButtonText;
+        }
+    }
 }
 
 // Field validation helper
@@ -158,6 +220,52 @@ function validateEmail(input, errorId) {
         errorElement.classList.remove('show');
         return true;
     }
+}
+
+async function loadGalleryContent() {
+    const galleryGrid = document.getElementById('gallery-grid');
+    if (!galleryGrid) return;
+
+    try {
+        const response = await fetch('/api/gallery');
+        if (!response.ok) {
+            throw new Error('Galéria nie je dostupná');
+        }
+        const data = await response.json();
+        if (!Array.isArray(data?.items)) return;
+
+        galleryGrid.innerHTML = data.items
+            .map((item, index) => renderGalleryItem(item, index))
+            .join('');
+    } catch (error) {
+        console.warn('Nepodarilo sa načítať galériu z API, používam statický obsah.', error);
+    }
+}
+
+function renderGalleryItem(item, index) {
+    const title = escapeHtml(item.title || 'Ukážka');
+    const description = escapeHtml(item.description || '');
+    const category = escapeHtml(item.category || 'other');
+    const imageUrl = item.imageUrl || '';
+
+    return `
+        <div class="gallery-item" data-category="${category}" data-index="${index}">
+            <img src="${imageUrl}" alt="${title}" />
+            <div class="gallery-overlay">
+                <h3 class="text-white font-bold text-xl mb-2">
+                    ${title}
+                </h3>
+                <p class="text-white text-sm">${description}</p>
+            </div>
+        </div>
+    `;
+}
+
+function escapeHtml(text) {
+    return (text || '').replace(/[&<>"']/g, (char) => {
+        const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+        return map[char] || char;
+    });
 }
 
 // Gallery Lightbox Functionality
