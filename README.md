@@ -26,6 +26,27 @@ node server.js
 # Aplikácia pobeží na http://localhost:3000
 ```
 
+## SMTP nastavenia (odosielanie formulára emailom)
+
+Backend odošle:
+- potvrdenie zákazníkovi,
+- kópiu vyplneného formulára firme.
+
+Nastavte tieto premenné prostredia:
+
+```bash
+export SMTP_HOST="smtp.vasprovider.sk"
+export SMTP_PORT="587"
+export SMTP_USER="uzivatel"
+export SMTP_PASS="heslo"
+export SMTP_SECURE="false" # true pre port 465
+export CONTACT_FROM="info@vasadomena.sk"
+export CONTACT_TO="info@vasadomena.sk"
+export COMPANY_NAME="MV-MONT"
+```
+
+Ak nie sú nastavené `CONTACT_FROM` alebo `CONTACT_TO`, server správy uloží, ale emaily neodošle.
+
 ## Admin panel galérie
 
 - Otvorte `http://localhost:3000/admin.html`.
