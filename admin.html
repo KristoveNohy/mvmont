@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="sk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MV-MONT | Admin galérie</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-slate-50">
+    <div class="min-h-screen">
+      <header class="bg-white shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+          <div>
+            <h1 class="text-2xl font-bold text-slate-900">Správa galérie</h1>
+            <p class="text-slate-500 text-sm">Pridávajte, upravujte a odstraňujte projekty.</p>
+          </div>
+          <a
+            href="/"
+            class="text-sm font-semibold text-blue-700 hover:text-blue-900 underline decoration-blue-200"
+          >
+            ← Späť na web
+          </a>
+        </div>
+      </header>
+
+      <main class="max-w-6xl mx-auto px-4 py-8 space-y-8">
+        <!-- Admin token -->
+        <section class="bg-white shadow rounded-xl border border-slate-200 p-6 space-y-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <h2 class="text-lg font-semibold text-slate-900">Autorizácia</h2>
+              <p class="text-sm text-slate-500">
+                Zadajte token (X-Admin-Token), ktorý je nastavený v premennej <code>ADMIN_TOKEN</code>.
+              </p>
+            </div>
+            <span
+              id="status-badge"
+              class="text-xs px-3 py-1 rounded-full bg-slate-100 text-slate-600 border border-slate-200"
+            >
+              Neoverené
+            </span>
+          </div>
+          <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
+            <input
+              id="admin-token"
+              type="password"
+              class="w-full sm:w-auto flex-1 rounded-lg border border-slate-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              placeholder="Zadajte admin token"
+            />
+            <div class="flex gap-2">
+              <button
+                id="save-token"
+                class="px-4 py-2 rounded-lg bg-blue-700 text-white font-semibold hover:bg-blue-800 shadow-sm"
+              >
+                Uložiť token
+              </button>
+              <button
+                id="clear-token"
+                class="px-4 py-2 rounded-lg bg-slate-100 text-slate-700 font-semibold hover:bg-slate-200 border border-slate-200"
+              >
+                Odstrániť
+              </button>
+            </div>
+          </div>
+          <p id="token-hint" class="text-xs text-slate-500"></p>
+        </section>
+
+        <!-- Form -->
+        <section class="bg-white shadow rounded-xl border border-slate-200 p-6 space-y-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <h2 class="text-lg font-semibold text-slate-900" id="form-title">Nová položka</h2>
+              <p class="text-sm text-slate-500">Pridajte nový projekt alebo upravte existujúci.</p>
+            </div>
+            <button
+              id="reset-form"
+              class="text-sm text-blue-700 hover:text-blue-900 underline decoration-blue-200"
+              type="button"
+            >
+              Vynulovať formulár
+            </button>
+          </div>
+
+          <form id="gallery-form" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="col-span-1 sm:col-span-2">
+              <label class="block text-sm font-semibold text-slate-800 mb-1" for="title">Názov</label>
+              <input
+                id="title"
+                name="title"
+                type="text"
+                required
+                class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              />
+            </div>
+
+            <div class="col-span-1 sm:col-span-2">
+              <label class="block text-sm font-semibold text-slate-800 mb-1" for="description">Popis</label>
+              <input
+                id="description"
+                name="description"
+                type="text"
+                class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              />
+            </div>
+
+            <div>
+              <label class="block text-sm font-semibold text-slate-800 mb-1" for="category">Kategória</label>
+              <select
+                id="category"
+                name="category"
+                required
+                class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              >
+                <option value="">Vyberte</option>
+                <option value="balcony">Zasklievanie balkónov</option>
+                <option value="blinds">Žalúzie a rolety</option>
+                <option value="awnings">Okenné tienidlá</option>
+                <option value="screens">Sieťky proti hmyzu</option>
+                <option value="other">Iné</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-sm font-semibold text-slate-800 mb-1" for="imageUrl">URL obrázka</label>
+              <input
+                id="imageUrl"
+                name="imageUrl"
+                type="url"
+                class="w-full rounded-lg border border-slate-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                placeholder="https://..."
+              />
+              <p class="text-xs text-slate-500 mt-1">Použite URL alebo nahrajte súbor.</p>
+            </div>
+
+            <div>
+              <label class="block text-sm font-semibold text-slate-800 mb-1" for="imageFile">Nahrať obrázok</label>
+              <input
+                id="imageFile"
+                name="imageFile"
+                type="file"
+                accept="image/*"
+                class="w-full text-sm text-slate-700"
+              />
+            </div>
+
+            <div class="col-span-1 sm:col-span-2 flex items-center justify-between">
+              <div id="form-message" class="text-sm text-slate-500"></div>
+              <button
+                type="submit"
+                class="px-6 py-3 rounded-lg bg-blue-700 text-white font-semibold hover:bg-blue-800 shadow-sm"
+              >
+                Uložiť
+              </button>
+            </div>
+          </form>
+        </section>
+
+        <!-- List -->
+        <section class="bg-white shadow rounded-xl border border-slate-200 p-6 space-y-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <h2 class="text-lg font-semibold text-slate-900">Položky galérie</h2>
+              <p class="text-sm text-slate-500">Aktuálne záznamy z webu.</p>
+            </div>
+            <button
+              id="refresh-gallery"
+              class="px-4 py-2 rounded-lg bg-slate-100 text-slate-700 font-semibold hover:bg-slate-200 border border-slate-200"
+            >
+              Obnoviť
+            </button>
+          </div>
+
+          <div id="gallery-list" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4"></div>
+        </section>
+      </main>
+    </div>
+
+    <script src="./admin.js"></script>
+  </body>
+</html>
