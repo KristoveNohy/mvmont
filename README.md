@@ -70,7 +70,7 @@ Payload pre vytvorenie/úpravu:
 {
   "title": "Názov",
   "description": "Popis",
-  "category": "balcony|blinds|awnings|screens|other",
+  "category": "frameless|framed|shutters|blinds|terraces|railings|screens",
   "imageUrl": "https://externy.obrazok/optional",
   "imageData": "BASE64_OBSAH",      // alternatíva k imageUrl
   "imageName": "nazov-subaor.png"   // odporúčané pri imageData
