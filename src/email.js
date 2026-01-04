@@ -6,12 +6,13 @@ const CONTACT_FROM = process.env.CONTACT_FROM || '';
 
 function formatServiceLabel(service) {
   const map = {
-    balcony: 'Zasklievanie balkónov',
-    blinds: 'Žalúzie a rolety',
-    awnings: 'Okenné tienidlá',
-    screens: 'Sieťky proti hmyzu',
-    service: 'Servis a údržba',
-    other: 'Iné',
+    frameless: 'Bezrámové presklenia',
+    framed: 'Rámové presklenia',
+    shutters: 'Rolety',
+    blinds: 'Žalúzie',
+    terraces: 'Terasy',
+    railings: 'Balkónové zábradlia',
+    screens: 'Siete proti hmyzu',
   };
   return map[service] || service;
 }
