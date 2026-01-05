@@ -3,6 +3,7 @@ const fs = require('fs');
 const fsp = require('fs/promises');
 const path = require('path');
 const { randomUUID } = require('crypto');
+require('dotenv').config();
 const { sendContactEmails } = require('./src/email');
 
 const PORT = process.env.PORT || 3000;
