@@ -15,5 +15,8 @@
   "packageManager": "pnpm@10.10.0",
   "devDependencies": {
     "vite": "^6.3.5"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3"
   }
 }
