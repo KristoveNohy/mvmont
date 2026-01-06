@@ -17,6 +17,7 @@
     "vite": "^6.3.5"
   },
   "dependencies": {
-    "dotenv": "^17.2.3"
+    "dotenv": "^17.2.3",
+    "nodemailer": "^6.10.1"
   }
 }
