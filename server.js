@@ -276,9 +276,27 @@ async function handleGalleryDelete(req, res, id) {
   }
 }
 
-async function removeLocalImage(imageUrl) {
-  const relativePath = imageUrl.replace('/uploads/', '');
+function resolveLocalUploadPath(imageUrl) {
+  if (!imageUrl) return null;
+  let pathname = '';
+  try {
+    pathname = new URL(imageUrl, 'http://localhost').pathname;
+  } catch (error) {
+    return null;
+  }
+
+  if (!pathname.startsWith('/uploads/')) return null;
+  const relativePath = pathname.replace('/uploads/', '');
+  if (!relativePath) return null;
+
   const filePath = path.join(UPLOADS_DIR, relativePath);
+  if (!filePath.startsWith(UPLOADS_DIR)) return null;
+  return filePath;
+}
+
+async function removeLocalImage(imageUrl) {
+  const filePath = resolveLocalUploadPath(imageUrl);
+  if (!filePath) return;
   try {
     await fsp.unlink(filePath);
   } catch (error) {
