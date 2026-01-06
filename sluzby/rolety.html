@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html class="h-full" lang="sk">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Rolety | MV-MONT Poprad</title>
+    <link rel="shortcut icon" href="/icon.jpg" type="image/x-icon">
+    <meta
+      name="description"
+      content="Rolety MV-MONT - vnútorné a vonkajšie riešenia pre súkromie a tepelný komfort s galériou realizácií."
+    />
+    <meta name="language" content="sk" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin="anonymous"
+    />
+    <link
+      id="google-fonts-link"
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <script
+      src="https://kit.fontawesome.com/8e98006f77.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="stylesheet" href="/style.css">
+
+    <style>
+      .gallery-item {
+        position: relative;
+        overflow: hidden;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+      }
+
+      .gallery-item:hover {
+        transform: scale(1.05);
+      }
+
+      .gallery-item img {
+        width: 100%;
+        height: 280px;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+      }
+
+      .gallery-item:hover img {
+        transform: scale(1.1);
+      }
+
+      .gallery-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(to top, rgba(0, 51, 102, 0.9), transparent);
+        padding: 20px;
+        transform: translateY(100%);
+        transition: transform 0.3s ease;
+      }
+
+      .gallery-item:hover .gallery-overlay {
+        transform: translateY(0);
+      }
+
+      .lightbox {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.95);
+        z-index: 9999;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .lightbox.active {
+        display: flex;
+      }
+
+      .lightbox-content {
+        max-width: 90%;
+        max-height: 90%;
+        position: relative;
+      }
+
+      .lightbox-content img {
+        max-width: 100%;
+        max-height: 90vh;
+        object-fit: contain;
+      }
+
+      .lightbox-close {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        color: white;
+        font-size: 40px;
+        cursor: pointer;
+        z-index: 10000;
+      }
+
+      .lightbox-nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        color: white;
+        font-size: 40px;
+        cursor: pointer;
+        padding: 20px;
+        background: rgba(0, 0, 0, 0.5);
+        border-radius: 50%;
+        transition: background 0.3s ease;
+      }
+
+      .lightbox-nav:hover {
+        background: rgba(0, 102, 204, 0.8);
+      }
+
+      .lightbox-prev {
+        left: 20px;
+      }
+
+      .lightbox-next {
+        right: 20px;
+      }
+    </style>
+  </head>
+
+  <body class="h-full bg-white">
+    <div class="frame-root">
+      <div class="frame-content">
+        <div class="[font-family:var(--font-family-body)]">
+          <div>
+            <header
+              id="global-header"
+              class="bg-white shadow-md sticky top-0 z-50"
+            >
+              <div class="container mx-auto px-4">
+                <div class="flex items-center justify-between h-32">
+                  <a href="/" class="flex-shrink-0">
+                    <img
+                      src="https://imagedelivery.net/xaKlCos5cTg_1RWzIu_h-A/c3019703-37fe-4413-3af7-7c35fa03b800/public"
+                      alt="MV-MONT Logo"
+                      class="h-28 py-2"
+                    />
+                  </a>
+
+                  <nav class="hidden lg:flex items-center space-x-8">
+                    <a
+                      href="/sluzby.html"
+                      class="text-[var(--primary-color)] font-bold transition-colors duration-300"
+                      >Služby</a
+                    >
+                    <a
+                      href="/referencie.html"
+                      class="text-[var(--dark-text-color)] hover:text-[var(--primary-color)] font-medium transition-colors duration-300"
+                      >Referencie</a
+                    >
+                    <a
+                      href="/o-nas.html"
+                      class="text-[var(--dark-text-color)] hover:text-[var(--primary-color)] font-medium transition-colors duration-300"
+                      >O nás</a
+                    >
+                    <a
+                      href="/kontakt.html"
+                      class="text-[var(--dark-text-color)] hover:text-[var(--primary-color)] font-medium transition-colors duration-300"
+                      >Kontakt</a
+                    >
+                    <a
+                      href="/kontakt.html"
+                      class="bg-[var(--primary-color)] text-white px-6 py-3 rounded-lg hover:bg-[var(--primary-button-hover-bg-color)] transition-all duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                    >
+                      Nezáväzná konzultácia
+                    </a>
+                  </nav>
+
+                  <button
+                    data-landingsite-mobile-menu-toggle
+                    class="lg:hidden text-[var(--primary-color)] p-2 focus:outline-none"
+                    aria-label="Menu"
+                  >
+                    <i class="fas fa-bars text-3xl"></i>
+                  </button>
+                </div>
+
+                <nav
+                  data-landingsite-mobile-menu
+                  class="hidden lg:hidden pb-4"
+                >
+                  <div class="flex flex-col space-y-3">
+                    <a
+                      href="/sluzby.html"
+                      class="text-[var(--primary-color)] font-bold py-2 px-4 rounded hover:bg-[var(--light-background-color)] transition-colors duration-300"
+                      >Služby</a
+                    >
+                    <a
+                      href="/referencie.html"
+                      class="text-[var(--dark-text-color)] hover:text-[var(--primary-color)] font-medium py-2 px-4 rounded hover:bg-[var(--light-background-color)] transition-colors duration-300"
+                      >Referencie</a
+                    >
+                    <a
+                      href="/o-nas.html"
+                      class="text-[var(--dark-text-color)] hover:text-[var(--primary-color)] font-medium py-2 px-4 rounded hover:bg-[var(--light-background-color)] transition-colors duration-300"
+                      >O nás</a
+                    >
+                    <a
+                      href="/kontakt.html"
+                      class="text-[var(--dark-text-color)] hover:text-[var(--primary-color)] font-medium py-2 px-4 rounded hover:bg-[var(--light-background-color)] transition-colors duration-300"
+                      >Kontakt</a
+                    >
+                  </div>
+                </nav>
+              </div>
+            </header>
+          </div>
+
+          <section
+            class="relative bg-gradient-to-br from-[var(--dark-background-color)] to-[var(--primary-color)] text-white py-20"
+          >
+            <div class="container mx-auto px-4">
+              <div class="max-w-3xl mx-auto text-center">
+                <h1
+                  class="text-4xl lg:text-5xl font-bold font-[var(--font-family-heading)] mb-6"
+                >
+                  Rolety
+                </h1>
+                <p class="text-xl text-[var(--light-background-color)]">
+                  Rolety na mieru pre maximálne súkromie, reguláciu svetla a tepelný komfort.
+                </p>
+                <div class="mt-8 flex flex-wrap justify-center gap-4">
+                  <a
+                    href="/kontakt.html"
+                    class="inline-flex items-center bg-white text-[var(--primary-color)] px-8 py-3 rounded-lg font-semibold shadow-lg hover:bg-[var(--light-background-color)] transition-all duration-300"
+                  >
+                    Nezáväzná konzultácia
+                  </a>
+                  <a
+                    href="/sluzby.html"
+                    class="inline-flex items-center border border-white px-8 py-3 rounded-lg font-semibold text-white hover:bg-white/10 transition-all duration-300"
+                  >
+                    Späť na služby
+                  </a>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="py-20 bg-white">
+            <div class="container mx-auto px-4">
+              <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
+                <div>
+                  <div
+                    class="w-16 h-16 bg-gradient-to-br from-[var(--primary-color)] to-[var(--accent-color)] rounded-xl flex items-center justify-center mb-6"
+                  >
+                    <i class="fas fa-sun text-white text-3xl"></i>
+                  </div>
+                  <h2
+                    class="text-3xl lg:text-4xl font-bold text-[var(--dark-text-color)] font-[var(--font-family-heading)] mb-6"
+                  >
+                    O roletách
+                  </h2>
+                  <p class="text-lg text-[var(--gray-text-color)] mb-6 leading-relaxed">
+                    Ponúkame vnútorné aj vonkajšie rolety v rôznych farbách a materiáloch. Každé riešenie
+                    prispôsobujeme vašim potrebám, aby ste získali maximálne pohodlie počas celého roka.
+                  </p>
+                  <ul class="space-y-3 mb-8">
+                    <li class="flex items-start space-x-3">
+                      <i
+                        class="fas fa-check-circle text-[var(--accent-color)] text-xl mt-1"
+                      ></i>
+                      <span class="text-[var(--gray-text-color)]">Vnútorné rolety a zatemnenie</span>
+                    </li>
+                    <li class="flex items-start space-x-3">
+                      <i
+                        class="fas fa-check-circle text-[var(--accent-color)] text-xl mt-1"
+                      ></i>
+                      <span class="text-[var(--gray-text-color)]">Vonkajšie rolety proti slnku</span>
+                    </li>
+                    <li class="flex items-start space-x-3">
+                      <i
+                        class="fas fa-check-circle text-[var(--accent-color)] text-xl mt-1"
+                      ></i>
+                      <span class="text-[var(--gray-text-color)]">Plastové aj hliníkové riešenia</span>
+                    </li>
+                    <li class="flex items-start space-x-3">
+                      <i
+                        class="fas fa-check-circle text-[var(--accent-color)] text-xl mt-1"
+                      ></i>
+                      <span class="text-[var(--gray-text-color)]">Možnosť manuálneho ovládania</span>
+                    </li>
+                  </ul>
+                </div>
+                <div class="rounded-2xl overflow-hidden shadow-2xl">
+                  <img
+                    src="/img/Rolety.jpg"
+                    alt="Rolety"
+                    class="w-full h-auto"
+                  />
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="py-20 bg-[var(--light-background-color)]">
+            <div class="container mx-auto px-4">
+              <div class="max-w-6xl mx-auto">
+                <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-10">
+                  <div>
+                    <h2
+                      class="text-3xl lg:text-4xl font-bold text-[var(--dark-text-color)] font-[var(--font-family-heading)] mb-3"
+                    >
+                      Galéria realizácií
+                    </h2>
+                    <p class="text-lg text-[var(--gray-text-color)]">
+                      Fotky sa načítavajú z galérie podľa kategórie <strong>Rolety</strong>. Nové realizácie
+                      pridáte cez administráciu galérie.
+                    </p>
+                  </div>
+                  <a
+                    href="/admin.html"
+                    class="inline-flex items-center bg-[var(--primary-color)] text-white px-6 py-3 rounded-lg font-semibold shadow-lg hover:bg-[var(--primary-button-hover-bg-color)] transition-all duration-300"
+                  >
+                    <i class="fas fa-plus mr-2"></i>
+                    Pridať fotky
+                  </a>
+                </div>
+
+                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8" id="gallery-grid" data-category="shutters">
+                  <div class="gallery-item" data-category="shutters" data-index="0">
+                    <img
+                      src="/img/Rolety.jpg"
+                      alt="Rolety na okná"
+                    />
+                    <div class="gallery-overlay">
+                      <h3 class="text-white font-bold text-xl mb-2">Rolety do okien</h3>
+                      <p class="text-white text-sm">Poprad, 2024</p>
+                    </div>
+                  </div>
+                  <div class="gallery-item" data-category="shutters" data-index="1">
+                    <img
+                      src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=800"
+                      alt="Vnútorné rolety"
+                    />
+                    <div class="gallery-overlay">
+                      <h3 class="text-white font-bold text-xl mb-2">Vnútorné rolety</h3>
+                      <p class="text-white text-sm">Poprad, 2024</p>
+                    </div>
+                  </div>
+                  <div class="gallery-item" data-category="shutters" data-index="2">
+                    <img
+                      src="https://images.unsplash.com/photo-1505691938895-1758d7feb511?w=800"
+                      alt="Zatemnenie interiéru"
+                    />
+                    <div class="gallery-overlay">
+                      <h3 class="text-white font-bold text-xl mb-2">Zatemnenie interiéru</h3>
+                      <p class="text-white text-sm">Poprad, 2023</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section
+            class="py-20 bg-gradient-to-br from-[var(--dark-background-color)] to-[var(--primary-color)] text-white"
+          >
+            <div class="container mx-auto px-4">
+              <div class="max-w-3xl mx-auto text-center">
+                <h2
+                  class="text-3xl lg:text-4xl font-bold font-[var(--font-family-heading)] mb-6"
+                >
+                  Chcete vedieť viac?
+                </h2>
+                <p class="text-xl text-[var(--light-background-color)] mb-8">
+                  Radi vám pripravíme návrh roliet presne podľa vašich predstáv.
+                </p>
+                <a
+                  href="/kontakt.html"
+                  class="inline-block bg-white text-[var(--primary-color)] px-10 py-4 rounded-lg font-bold text-lg hover:bg-[var(--light-background-color)] transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-1"
+                >
+                  <i class="fas fa-envelope mr-2"></i>
+                  Nezáväzný dopyt
+                </a>
+              </div>
+            </div>
+          </section>
+
+          <div>
+            <footer
+              id="global-footer"
+              class="bg-[var(--dark-background-color)] text-white pt-16 pb-8"
+            >
+              <div class="container mx-auto px-4">
+                <div
+                  class="grid sm:grid-cols-2 lg:grid-cols-4 gap-12 mb-12"
+                >
+                  <div class="lg:col-span-1">
+                    <a href="/" class="inline-block mb-6">
+                      <img
+                        src="https://imagedelivery.net/xaKlCos5cTg_1RWzIu_h-A/c3019703-37fe-4413-3af7-7c35fa03b800/public"
+                        alt="MV-MONT Logo"
+                        class="h-28 py-2"
+                      />
+                    </a>
+                    <p
+                      class="text-[var(--light-background-color)] mb-6 leading-relaxed"
+                    >
+                      Profesionálne presklenia, tienenie a balkónové
+                      doplnky v Poprade a okolí.
+                    </p>
+                  </div>
+
+                  <div>
+                    <h3
+                      class="text-xl font-bold mb-6 font-[var(--font-family-heading)]"
+                    >
+                      Rýchle odkazy
+                    </h3>
+                    <ul class="space-y-3">
+                      <li>
+                        <a
+                          href="/"
+                          class="text-[var(--light-background-color)] hover:text-white transition-colors duration-300"
+                          >Úvodná stránka</a
+                        >
+                      </li>
+                      <li>
+                        <a
+                          href="/sluzby.html"
+                          class="text-[var(--light-background-color)] hover:text-white transition-colors duration-300"
+                          >Služby</a
+                        >
+                      </li>
+                      <li>
+                        <a
+                          href="/referencie.html"
+                          class="text-[var(--light-background-color)] hover:text-white transition-colors duration-300"
+                          >Referencie</a
+                        >
+                      </li>
+                      <li>
+                        <a
+                          href="/o-nas.html"
+                          class="text-[var(--light-background-color)] hover:text-white transition-colors duration-300"
+                          >O nás</a
+                        >
+                      </li>
+                      <li>
+                        <a
+                          href="/kontakt.html"
+                          class="text-[var(--light-background-color)] hover:text-white transition-colors duration-300"
+                          >Kontakt</a
+                        >
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div>
+                    <h3
+                      class="text-xl font-bold mb-6 font-[var(--font-family-heading)]"
+                    >
+                      Naše služby
+                    </h3>
+                    <ul
+                      class="space-y-3 text-[var(--light-background-color)]"
+                    >
+                      <li>Bezrámové presklenia</li>
+                      <li>Rámové presklenia</li>
+                      <li>Rolety</li>
+                      <li>Žalúzie</li>
+                      <li>Terasy</li>
+                      <li>Balkónové zábradlia</li>
+                      <li>Siete proti hmyzu</li>
+                    </ul>
+                  </div>
+
+                  <div>
+                    <h3
+                      class="text-xl font-bold mb-6 font-[var(--font-family-heading)]"
+                    >
+                      Kontakt
+                    </h3>
+                    <ul class="space-y-4">
+                      <li>
+                        <a
+                          href="tel:0911880212"
+                          class="text-[var(--light-background-color)] hover:text-white transition-colors duration-300"
+                        >
+                          <i class="fas fa-phone-alt mr-2"></i>
+                          Michal Vaculík · 0911 880 212
+                        </a>
+                      </li>
+                      <li class="text-[var(--light-background-color)]">
+                        <i class="fas fa-map-marker-alt mr-2"></i>
+                        Letná 3370/21<br />058 01 POPRAD
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div
+                  class="border-t border-white border-opacity-20 pt-8"
+                >
+                  <p
+                    class="text-[var(--light-background-color)] text-sm text-center"
+                  >
+                    © 2025 MV-MONT. Všetky práva vyhradené.
+                  </p>
+                </div>
+              </div>
+            </footer>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="lightbox" class="lightbox">
+      <span class="lightbox-close" id="lightbox-close">&times;</span>
+      <span class="lightbox-nav lightbox-prev" id="lightbox-prev">&#10094;</span>
+      <span class="lightbox-nav lightbox-next" id="lightbox-next">&#10095;</span>
+      <div class="lightbox-content">
+        <img id="lightbox-img" src="" alt="" />
+      </div>
+    </div>
+
+    <script src="/script.js"></script>
+  </body>
+</html>

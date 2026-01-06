@@ -225,6 +225,7 @@ function validateEmail(input, errorId) {
 async function loadGalleryContent() {
     const galleryGrid = document.getElementById('gallery-grid');
     if (!galleryGrid) return;
+    const categoryFilter = (galleryGrid.dataset.category || '').trim();
 
     try {
         const response = await fetch('/api/gallery');
@@ -234,7 +235,25 @@ async function loadGalleryContent() {
         const data = await response.json();
         if (!Array.isArray(data?.items)) return;
 
-        galleryGrid.innerHTML = data.items
+        const items = categoryFilter
+            ? data.items.filter((item) => item.category === categoryFilter)
+            : data.items;
+
+        if (items.length === 0) {
+            galleryGrid.innerHTML = `
+                <div class="col-span-full rounded-2xl border border-[var(--light-border-color)] bg-[var(--light-background-color)] p-8 text-center">
+                    <p class="text-lg font-semibold text-[var(--primary-color)]">
+                        Zatiaľ tu nie sú žiadne fotky.
+                    </p>
+                    <p class="text-sm text-[var(--dark-text-color)] mt-2">
+                        Pridajte nové realizácie v administrácii galérie a zobrazia sa automaticky.
+                    </p>
+                </div>
+            `;
+            return;
+        }
+
+        galleryGrid.innerHTML = items
             .map((item, index) => renderGalleryItem(item, index))
             .join('');
     } catch (error) {
