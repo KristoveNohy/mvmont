@@ -97,6 +97,7 @@ async function sendMail({ from, to, subject, text, replyTo }) {
   if (!from || !to) throw new Error('From/To nie je nastavené');
 
   const socket = await openConnection();
+  let activeSocket = socket;
   const client = new SMTPClient(socket);
 
   try {
@@ -116,6 +117,7 @@ async function sendMail({ from, to, subject, text, replyTo }) {
         secureSocket.once('secureConnect', resolve);
         secureSocket.once('error', reject);
       });
+      activeSocket = secureSocket;
 
       const secureClient = new SMTPClient(secureSocket);
       await secureClient.readResponse().catch(() => {});
@@ -126,7 +128,9 @@ async function sendMail({ from, to, subject, text, replyTo }) {
 
     return await sendWithClient(client, { from, to, subject, text, replyTo });
   } finally {
-    socket.end();
+    if (activeSocket && !activeSocket.destroyed) {
+      activeSocket.end();
+    }
   }
 }
 
