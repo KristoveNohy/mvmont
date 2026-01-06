@@ -11,7 +11,6 @@ const ADMIN_TOKEN = process.env.ADMIN_TOKEN || 'changeme-admin-token';
 const DATA_DIR = path.join(__dirname, 'data');
 const UPLOADS_DIR = path.join(__dirname, 'uploads');
 const Database = require('./src/database');
-const CONTACTS_COLLECTION = 'contacts';
 const GALLERY_COLLECTION = 'gallery';
 
 const db = new Database(DATA_DIR);
@@ -33,7 +32,6 @@ const MIME_TYPES = {
 async function ensureStorage() {
   await fsp.mkdir(DATA_DIR, { recursive: true });
   await fsp.mkdir(UPLOADS_DIR, { recursive: true });
-  await db.ensureCollection(CONTACTS_COLLECTION, []);
   await db.ensureCollection(GALLERY_COLLECTION, []);
 }
 
@@ -119,7 +117,6 @@ async function handleContactSubmission(req, res) {
       return;
     }
 
-    const contacts = await db.read(CONTACTS_COLLECTION, []);
     const entry = {
       id: randomUUID(),
       name: payload.name.trim(),
@@ -129,8 +126,6 @@ async function handleContactSubmission(req, res) {
       message: payload.message.trim(),
       createdAt: new Date().toISOString(),
     };
-    contacts.unshift(entry);
-    await db.write(CONTACTS_COLLECTION, contacts);
 
     const emailResult = await sendContactEmails(entry);
     if (!emailResult.ok) {
